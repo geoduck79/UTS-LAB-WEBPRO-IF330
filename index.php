@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "<div class='alert alert-danger'>Invalid email or password</div>";
     }
-    
 }
 ?>
 
@@ -45,23 +44,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Login</title>
 </head>
-<body class="bg-image" style="background-image: url('path/to/your/background-image.jpg'); background-size: cover; height: 100vh;">
-
-    <div class="d-flex justify-content-center align-items-center vh-100">
-        <div class="bg-light bg-opacity-75 p-4 rounded shadow" style="max-width: 400px; width: 100%;">
-            <h2 class="text-primary text-center">Login</h2>
+<body>
+    <div class="container-fluid d-flex justify-content-center align-items-center vh-100" style="background-image: url('images/1350790.png">
+        <div class="bg-gray text-light p-4 rounded shadow" style="max-width: 400px; width: 100%;">
+            <h2 class="text-white text-center">Login</h2>
             <form method="POST">
                 <div class="mb-3">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control" required>
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" required placeholder="Enter your email">
                 </div>
                 <div class="mb-3">
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control" required>
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required placeholder="Enter your password">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
             </form>
-            <p class="mt-3 text-center">Belum punya akun? <a href="register.php">Daftar di sini</a></p>
+            <p class="mt-3 text-center">Don't have an account? <a href="register.php" class="text-light">Register here</a></p>
         </div>
     </div>
 
