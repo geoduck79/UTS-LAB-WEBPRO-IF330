@@ -26,74 +26,76 @@ $todos = $stmt->get_result();
     <title>Dashboard</title>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">To-Do App</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="profile.php">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
-                    </li>
-                </ul>
+    <!-- Full-screen background image -->
+    <div class="bg-image" style="background-image: url('images/1350790.png'); min-height: 100vh; background-size: cover; background-position: center;">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">To-Do App</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="navbar-brand" href="profile.php">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navbar-brand" href="logout.php">Logout</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <div class="container my-5">
-    <h3 class="text-center mb-4"><?= htmlspecialchars($_SESSION['username']) ?>'s To-Do Lists</h3>
-        
-        <form method="POST" action="create_todo.php" class="input-group mb-3">
-            <input type="text" name="title" placeholder="New To-Do List" class="form-control" required>
-            <button type="submit" class="btn btn-primary">Add</button>
-        </form>
+        <div class="container my-5 bg-gray bg-opacity-75 rounded p-4">
+        <h3 class="text-center text-white mb-4"><?= htmlspecialchars($_SESSION['username']) ?>'s To-Do Lists</h3>
+            
+            <form method="POST" action="create_todo.php" class="input-group mb-3">
+                <input type="text" name="title" placeholder="New To-Do List" class="form-control rounded-start-3  " required>
+                <button type="submit" class="btn btn-primary rounded-end-3 ">Add</button>
+            </form>
 
+            <!-- Search Bar -->
+            <div class="input-group mb-4 ">
+                <input type="text" id="searchTask" class="form-control rounded-start-5" placeholder="Search for tasks">
+                <select id="filterStatus" class="form-select rounded-end-5 bg-primary border-0 text-light">
+                    <option value="">All Tasks</option>
+                    <option value="completed">Completed</option>
+                    <option value="incomplete">Ongoing</option>
+                </select>
+            </div>
 
-        <!-- Search Bar -->
-        <div class="input-group mb-4">
-            <input type="text" id="searchTask" class="form-control" placeholder="Search for tasks">
-            <select id="filterStatus" class="form-select">
-                <option value="">All Tasks</option>
-                <option value="completed">Completed</option>
-                <option value="incomplete">Ongoing</option>
-            </select>
-        </div>
-
-        <div class="row">
-            <?php while ($todo = $todos->fetch_assoc()) : ?>
-                <?php
-                // Fetch tasks for each to-do list
-                $todo_id = $todo['id'];
-                $taskStmt = $conn->prepare("SELECT * FROM tasks WHERE todo_id = ?");
-                $taskStmt->bind_param("i", $todo_id);
-                $taskStmt->execute();
-                $tasks = $taskStmt->get_result();
-                ?>
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($todo['title']); ?></h5>
-                            <ul class="list-group mb-3 taskList" data-todo-id="<?= $todo_id; ?>">
-                                <?php while ($task = $tasks->fetch_assoc()) : ?>
-                                    <li class="list-group-item task-item <?= $task['status']; ?>">
-                                        <span class="<?= $task['status'] === 'completed' ? 'text-decoration-line-through' : '' ?>">
-                                            <?= htmlspecialchars($task['task']); ?>
-                                        </span>
-                                    </li>
-                                <?php endwhile; ?>
-                            </ul>
-                            <a href="todo.php?id=<?= $todo['id']; ?>" class="btn btn-primary">View</a>
-                            <a href="delete_todo.php?id=<?= $todo['id']; ?>" class="btn btn-danger">Delete</a>
+            <div class="row">
+                <?php while ($todo = $todos->fetch_assoc()) : ?>
+                    <?php
+                    // Fetch tasks for each to-do list
+                    $todo_id = $todo['id'];
+                    $taskStmt = $conn->prepare("SELECT * FROM tasks WHERE todo_id = ?");
+                    $taskStmt->bind_param("i", $todo_id);
+                    $taskStmt->execute();
+                    $tasks = $taskStmt->get_result();
+                    ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark">
+                            <div class="card-body bg-dark">
+                                <h5 class="card-title text-white"><?= htmlspecialchars($todo['title']); ?></h5>
+                                <ul class="list-group mb-3 taskList " data-todo-id="<?= $todo_id; ?>">
+                                    <?php while ($task = $tasks->fetch_assoc()) : ?>
+                                        <li class="list-group-item task-item <?= $task['status']; ?>">
+                                            <span class="<?= $task['status'] === 'completed' ? 'text-decoration-line-through' : '' ?>">
+                                                <?= htmlspecialchars($task['task']); ?>
+                                            </span>
+                                        </li>
+                                    <?php endwhile; ?>
+                                </ul>
+                                <a href="todo.php?id=<?= $todo['id']; ?>" class="btn btn-primary">Add Tasks</a>
+                                <a href="delete_todo.php?id=<?= $todo['id']; ?>" class="btn btn-danger"onclick="return confirm('Are you sure you want to delete this to-do list?');">Delete</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endwhile; ?>
+                <?php endwhile; ?>
+            </div>
         </div>
     </div>
 
